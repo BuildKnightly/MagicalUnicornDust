@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CampusAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -14,15 +15,16 @@ namespace CampusAPI.Controllers
         public IHttpActionResult Get(string map, string node1, string node2)
         {
             return BadRequest();
-            //return NotFound();
-            //return Ok();
+            return NotFound();
+            return Ok();
         }
 
-        // PUT: /maps/5
-        public IHttpActionResult Put(int id, [FromBody]string value)
+        // PUT: /maps/{map}
+        [Route("maps/{map}")]
+        public IHttpActionResult Put(string map, [FromBody]CampusMap value)
         {
             return BadRequest();
-            //return Ok();
+            return Ok();
         }
     }
 }
