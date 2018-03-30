@@ -23,7 +23,11 @@ namespace CampusAPI.Controllers
         [Route("maps/{map}")]
         public IHttpActionResult Put(string map, [FromBody]CampusMap value)
         {
-            return BadRequest();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("The map data is invalid");
+            }
+
             return Ok();
         }
     }
