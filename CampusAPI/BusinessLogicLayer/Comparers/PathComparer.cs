@@ -5,10 +5,10 @@ using System.Web;
 
 namespace CampusAPI.BusinessLogicLayer.Comparers
 {
-  public class PathComparer<T> : IComparer<T>
+  public class PathVectorComparer<T> : IComparer<T>
   {
     private readonly Comparison<T> comparison;
-    public PathComparer(Comparison<T> comparison)
+    public PathVectorComparer(Comparison<T> comparison)
     {
       this.comparison = comparison;
     }

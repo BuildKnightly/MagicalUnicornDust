@@ -39,7 +39,9 @@ namespace CampusAPI.BusinessLogicLayer
 
     public Path GetShortestPath(string Node1, string Node2)
     {
-      SortedSet<Path> unvisitedNodes = InitialiseSortedSet(Node1);
+      SortedSet<PathVector> unvisitedNodes = InitialiseSortedSet(Node1);
+      Dictionary<string, Path> workingSet = InitialiseWorkingSet(unvisitedNodes);
+
       //Worst Algorithm, Just getting my test to pass
       if ((nodes.ContainsKey(Node1)) && (nodes[Node1].ContainsKey(Node2)))
       {
@@ -58,27 +60,38 @@ namespace CampusAPI.BusinessLogicLayer
       }
     }
 
-    private SortedSet<Path> InitialiseSortedSet(string originNode)
+    private Dictionary<string, Path> InitialiseWorkingSet(SortedSet<PathVector> graphNodes)
     {
-      SortedSet<Path> nodeDistances = new SortedSet<Path>(
-                                                                   new PathComparer<Path>((a, b) =>
+      Dictionary<string, Path> workingSet = new Dictionary<string, Path>();
+      foreach (PathVector graphNode in graphNodes.ToList<PathVector>())
+      {
+        workingSet.Add(graphNode.targetNode, graphNode.shortestPath);
+      }
+      return workingSet;
+    }
+
+    private SortedSet<PathVector> InitialiseSortedSet(string originNode)
+    {
+      SortedSet<PathVector> nodeDistances = new SortedSet<PathVector>(
+                                                                   new PathVectorComparer<PathVector>((a, b) =>
                                                                    {
-                                                                     if (a.distance != b.distance)
+                                                                     if (a.shortestPath.distance != b.shortestPath.distance)
                                                                      {
-                                                                       return a.distance.CompareTo(b.distance);
+                                                                       return a.shortestPath.distance.CompareTo(b.shortestPath.distance);
                                                                      }
                                                                      else
                                                                      {
-                                                                       return a.path[0].CompareTo(b.path[0]);
+                                                                       return a.targetNode.CompareTo(b.targetNode);
                                                                      }
                                                                    }));
 
       foreach (string node in AllKnownNodeIds)
       {
-        Path path = new Path();
-        path.path.Add(node);
-        path.distance = (node == originNode ? 0 : float.PositiveInfinity);
-        nodeDistances.Add(path);
+        PathVector pathVector = new PathVector();
+        pathVector.targetNode = node;
+        pathVector.shortestPath.path.Add(node);
+        pathVector.shortestPath.distance = (node == originNode ? 0 : float.PositiveInfinity);
+        nodeDistances.Add(pathVector);
       }
 
       return nodeDistances;

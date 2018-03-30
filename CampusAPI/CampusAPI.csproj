@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="Models\CampusMap.cs" />
     <Compile Include="Models\Path.cs" />
+    <Compile Include="Models\PathVector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
