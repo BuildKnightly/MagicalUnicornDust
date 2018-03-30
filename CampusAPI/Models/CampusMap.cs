@@ -11,6 +11,5 @@ namespace CampusAPI.Models
     public class CampusMap
     {
         public Dictionary<string, Dictionary<string, float>> nodes;
-
     }
 }

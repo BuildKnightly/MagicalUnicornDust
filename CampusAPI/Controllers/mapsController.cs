@@ -1,4 +1,5 @@
-﻿using CampusAPI.Models;
+﻿using CampusAPI.DataStore;
+using CampusAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,13 @@ namespace CampusAPI.Controllers
 {
     public class mapsController : ApiController
     {
+        ICampusCache campusCache;
+
+        public mapsController(ICampusCache CampusCache)
+        {
+            this.campusCache = CampusCache;
+        }
+
         // GET: /maps/{map}/path/{node1}/{node2}
         [Route("maps/{map}/path/{node1}/{node2}")]
         public IHttpActionResult Get(string map, string node1, string node2)
@@ -21,14 +29,17 @@ namespace CampusAPI.Controllers
 
         // PUT: /maps/{map}
         [Route("maps/{map}")]
-        public IHttpActionResult Put(string map, [FromBody]CampusMap value)
+        public IHttpActionResult Put(string map, [FromBody]CampusMap campusMap)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("The map data is invalid");
             }
-
-            return Ok();
+            else
+            {
+                campusCache.SetCampusMap(map, campusMap);
+                return Ok();
+            }
         }
     }
 }
