@@ -38,9 +38,9 @@ namespace CampusAPI.Tests
 
       // Assert
       Assert.IsNotNull(path);
-      Assert.AreEqual(path.distance, float.PositiveInfinity);
-      Assert.AreEqual(path.path.Count, 1);
-      Assert.AreEqual(path.path[0], Node1);
+      Assert.AreEqual(float.PositiveInfinity, path.distance);
+      Assert.AreEqual(1, path.path.Count);
+      Assert.AreEqual(Node1, path.path[0]);
     }
 
     // The nodes are 1 step away from each other
@@ -58,10 +58,10 @@ namespace CampusAPI.Tests
 
       // Assert
       Assert.IsNotNull(path);
-      Assert.AreNotEqual(path.distance, float.PositiveInfinity);
-      Assert.AreEqual(path.path.Count, nrHops + 1); // 1 Hop  has 2 nodes
-      Assert.AreEqual(path.path[0], Node1); 
-      Assert.AreEqual(path.path[nrHops], Node2); 
+      Assert.AreNotEqual(float.PositiveInfinity, path.distance);
+      Assert.AreEqual(nrHops + 1, path.path.Count); // 1 Hop  has 2 nodes
+      Assert.AreEqual(Node1, path.path[0]);
+      Assert.AreEqual(Node2, path.path[nrHops]);
     }
 
     // The nodes are more than 2 steps away from each other
@@ -79,10 +79,10 @@ namespace CampusAPI.Tests
 
       // Assert
       Assert.IsNotNull(path);
-      Assert.AreNotEqual(path.distance, float.PositiveInfinity);
-      Assert.AreEqual(path.path.Count, nrHops + 1); // 1 Hop  has 2 nodes
-      Assert.AreEqual(path.path[0], Node1);
-      Assert.AreEqual(path.path[nrHops], Node2);
+      Assert.AreNotEqual(float.PositiveInfinity, path.distance);
+      Assert.AreEqual(nrHops + 1, path.path.Count); // 3 Hops have 4 nodes
+      Assert.AreEqual(Node1, path.path[0]);
+      Assert.AreEqual(Node2, path.path[nrHops]);
     }
 
     //There are two paths between the nodes, algorithm should use the shorter
@@ -92,8 +92,8 @@ namespace CampusAPI.Tests
       // Arrange
       string Node1 = "N1";
       string Node2 = "N2";
-      int goodRouteNrHops = 4;
-      int badRouteNrHops = 6;
+      int goodRouteNrHops = 2;
+      int badRouteNrHops = 3;
 
       // Action
       CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetACampusMapWithShortCircuit(Node1, Node2, goodRouteNrHops, badRouteNrHops));
@@ -101,10 +101,10 @@ namespace CampusAPI.Tests
 
       // Assert
       Assert.IsNotNull(path);
-      Assert.AreNotEqual(path.distance, float.PositiveInfinity);
-      Assert.AreEqual(path.path.Count, goodRouteNrHops + 1); // 1 Hop  has 2 nodes
-      Assert.AreEqual(path.path[0], Node1);
-      Assert.AreEqual(path.path[goodRouteNrHops], Node2);
+      Assert.AreNotEqual(float.PositiveInfinity, path.distance);
+      Assert.AreEqual(goodRouteNrHops + 1, path.path.Count);// 4 Hops have 5 nodes
+      Assert.AreEqual(Node1, path.path[0]);
+      Assert.AreEqual(Node2, path.path[goodRouteNrHops]);
     }
 
     //There is shortcut in this graph, but the weighting is higher, algorithm shouldn't use it
@@ -114,8 +114,8 @@ namespace CampusAPI.Tests
       // Arrange
       string Node1 = "N1";
       string Node2 = "N2";
-      int badRouteNrHops = 3;
-      int goodRouteNrHops = 5;
+      int badRouteNrHops = 2;
+      int goodRouteNrHops = 3;
 
       // Action
       CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetACampusMapWithShortCircuitTrap(Node1, Node2, goodRouteNrHops, badRouteNrHops));
@@ -123,10 +123,10 @@ namespace CampusAPI.Tests
 
       // Assert
       Assert.IsNotNull(path);
-      Assert.AreNotEqual(path.distance, float.PositiveInfinity);
-      Assert.AreEqual(path.path.Count, goodRouteNrHops + 1); // 1 Hop  has 2 nodes
-      Assert.AreEqual(path.path[0], Node1);
-      Assert.AreEqual(path.path[goodRouteNrHops], Node2);
+      Assert.AreNotEqual(float.PositiveInfinity, path.distance);
+      Assert.AreEqual(goodRouteNrHops + 1, path.path.Count); // 5 Hops have 6 nodes
+      Assert.AreEqual(Node1, path.path[0]);
+      Assert.AreEqual(Node2, path.path[goodRouteNrHops]);
     }
 
     //There are two paths between the nodes, algorithm should use the shorter
@@ -136,18 +136,18 @@ namespace CampusAPI.Tests
       // Arrange
       string Node1 = "N1";
       string Node2 = "N2";
-      int goodRouteNrHops = 4;
+      int nrHops = 4;
 
       // Action
-      CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetACampusMapWithCircularReference(Node1, Node2, goodRouteNrHops));
+      CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetACampusMapWithCircularReference(Node1, Node2, nrHops));
       Path path = testObj.GetShortestPath(Node1, Node2);
 
       // Assert
       Assert.IsNotNull(path);
-      Assert.AreNotEqual(path.distance, float.PositiveInfinity);
-      Assert.AreEqual(path.path.Count, goodRouteNrHops + 1);
-      Assert.AreEqual(path.path[0], Node1);
-      Assert.AreEqual(path.path[goodRouteNrHops], Node2);
+      Assert.AreNotEqual(float.PositiveInfinity, path.distance);
+      Assert.AreEqual(nrHops + 1, path.path.Count);
+      Assert.AreEqual(Node1, path.path[0]);
+      Assert.AreEqual(Node2, path.path[nrHops]);
     }
 
     //There are two paths between the nodes, algorithm should use the shorter
@@ -164,9 +164,9 @@ namespace CampusAPI.Tests
 
       // Assert
       Assert.IsNotNull(path);
-      Assert.AreEqual(path.distance, float.PositiveInfinity);
-      Assert.AreEqual(path.path.Count, 1);
-      Assert.AreEqual(path.path[0], Node1);
+      Assert.AreEqual(float.PositiveInfinity, path.distance);
+      Assert.AreEqual(1, path.path.Count);
+      Assert.AreEqual(Node1, path.path[0]);
     }
   }
 }

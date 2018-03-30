@@ -122,7 +122,6 @@
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BusinessLogicLayer\CampusMapBLL.cs" />
-    <Compile Include="BusinessLogicLayer\Comparers\PathComparer.cs" />
     <Compile Include="Controllers\mapsController.cs" />
     <Compile Include="DataStore\CampusCache.cs" />
     <Compile Include="DataStore\ICampusCache.cs" />
@@ -131,7 +130,6 @@
     </Compile>
     <Compile Include="Models\CampusMap.cs" />
     <Compile Include="Models\Path.cs" />
-    <Compile Include="Models\PathVector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

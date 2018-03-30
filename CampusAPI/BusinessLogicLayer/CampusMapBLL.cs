@@ -1,5 +1,4 @@
-﻿using CampusAPI.BusinessLogicLayer.Comparers;
-using CampusAPI.Models;
+﻿using CampusAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,37 +38,56 @@ namespace CampusAPI.BusinessLogicLayer
 
     public Path GetShortestPath(string Node1, string Node2)
     {
-      SortedSet<PathVector> unvisitedNodes = InitialiseSortedSet(Node1);
-      Dictionary<string, Path> workingSet = InitialiseWorkingSet(unvisitedNodes);
+      List<string> unvisitedNodes = new List<string>(AllKnownNodeIds);
+      Dictionary<string, Path> workingSet = InitialiseWorkingSet(Node1);
 
-      //Worst Algorithm, Just getting my test to pass
-      if ((nodes.ContainsKey(Node1)) && (nodes[Node1].ContainsKey(Node2)))
+      while (unvisitedNodes.Count > 0)
       {
-        Path path = new Path();
-        path.distance = nodes[Node1][Node2];
-        path.path.AddRange(new string[] { Node1, Node2});
+        unvisitedNodes.Sort((a, b) => workingSet[a].distance.CompareTo(workingSet[b].distance));
+        string targetNode = unvisitedNodes[0];
+        if(workingSet[targetNode].distance == float.PositiveInfinity)  // We've run out of connected nodes
+        {
+          break;
+        }
+        unvisitedNodes.Remove(targetNode);
 
-      return path;
+        if (nodes.ContainsKey(targetNode))
+        {
+          foreach (string node in nodes[targetNode].Keys)
+          {
+            //check if shortest distance from the origin to this node 
+            //added to
+            //the distance to the next node
+            //is shorter than
+            //the known distance from the origin the the next node
+            if (workingSet[targetNode].distance + nodes[targetNode][node] < workingSet[node].distance)
+            {
+              //update the route distance to the next node with this known shorter route distance
+              workingSet[node].distance = workingSet[targetNode].distance + nodes[targetNode][node];
+
+              //update the route path to be this nodes path plus the edge to the next node
+              workingSet[node].path = new List<string>(workingSet[targetNode].path);
+              workingSet[node].path.Add(node);
+            }
+          }
+        }
       }
-      else
-      {
-        Path path = new Path();
-        path.distance = float.PositiveInfinity;
-        path.path.AddRange(new string[] { Node1 });
-        return path;
-      }
+      return workingSet[Node2];
     }
 
-    private Dictionary<string, Path> InitialiseWorkingSet(SortedSet<PathVector> graphNodes)
+    private Dictionary<string, Path> InitialiseWorkingSet(string originNode)
     {
       Dictionary<string, Path> workingSet = new Dictionary<string, Path>();
-      foreach (PathVector graphNode in graphNodes.ToList<PathVector>())
+      foreach (string node in AllKnownNodeIds)
       {
-        workingSet.Add(graphNode.targetNode, graphNode.shortestPath);
+        Path shortestPath = new Path();
+        shortestPath.path.Add(originNode);
+        shortestPath.distance = (node == originNode ? 0 : float.PositiveInfinity);
+        workingSet.Add(node, shortestPath);
       }
       return workingSet;
     }
-
+    /*
     private SortedSet<PathVector> InitialiseSortedSet(string originNode)
     {
       SortedSet<PathVector> nodeDistances = new SortedSet<PathVector>(
@@ -89,12 +107,12 @@ namespace CampusAPI.BusinessLogicLayer
       {
         PathVector pathVector = new PathVector();
         pathVector.targetNode = node;
-        pathVector.shortestPath.path.Add(node);
+        pathVector.shortestPath.path.Add(originNode);
         pathVector.shortestPath.distance = (node == originNode ? 0 : float.PositiveInfinity);
         nodeDistances.Add(pathVector);
       }
 
       return nodeDistances;
-    }
+    }*/
   }
 }
