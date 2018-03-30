@@ -8,6 +8,6 @@ namespace CampusAPI.Models
   public class Path
   {
     public float distance = float.PositiveInfinity;
-    internal List<string> path = new List<string>();
+    public List<string> path = new List<string>();
   }
 }
