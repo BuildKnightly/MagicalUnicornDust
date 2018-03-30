@@ -1,4 +1,6 @@
-﻿using CampusAPI.Models;
+﻿using CampusAPI.BusinessLogicLayer;
+using CampusAPI.DataStore;
+using CampusAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,17 @@ namespace CampusAPI.Tests
       testNodes["b"].Add("c", 20);
 
       return new CampusMap() { nodes = testNodes };
+    }
+
+    internal static CampusCache GetMapNode1Node2CampusCache()
+    {
+      Dictionary<string, Dictionary<string, float>> testNodes = new Dictionary<string, Dictionary<string, float>>();
+      testNodes.Add("node1", new Dictionary<string, float>());
+      testNodes["node1"].Add("node2", 20);
+
+      CampusCache campusCache = new CampusCache();
+      campusCache.SetCampusMap("map", new CampusMapBLL(new CampusMap() { nodes = testNodes }));
+      return campusCache;
     }
   }
 }

@@ -1,4 +1,5 @@
-﻿using CampusAPI.Models;
+﻿using CampusAPI.BusinessLogicLayer;
+using CampusAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,8 @@ namespace CampusAPI.DataStore
 {
   public class CampusCache : ICampusCache
   {
-    Dictionary<string, CampusMap> campuses = new Dictionary<string, CampusMap>();
-    public void SetCampusMap(string Campus, CampusMap CampusMap)
+    Dictionary<string, CampusMapBLL> campuses = new Dictionary<string, CampusMapBLL>();
+    public void SetCampusMap(string Campus, CampusMapBLL CampusMap)
     {
       if (campuses.ContainsKey(Campus))
       {
@@ -21,7 +22,7 @@ namespace CampusAPI.DataStore
       }
     }
 
-    public CampusMap GetCampusMap(string Campus)
+    public CampusMapBLL GetCampusMap(string Campus)
     {
       if (campuses.ContainsKey(Campus))
       {

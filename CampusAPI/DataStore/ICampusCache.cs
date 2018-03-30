@@ -1,4 +1,5 @@
-﻿using CampusAPI.Models;
+﻿using CampusAPI.BusinessLogicLayer;
+using CampusAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace CampusAPI.DataStore
 {
   public interface ICampusCache
   {
-    CampusMap GetCampusMap(string Campus);
-    void SetCampusMap(string Campus, CampusMap CampusMap);
+    CampusMapBLL GetCampusMap(string Campus);
+    void SetCampusMap(string Campus, CampusMapBLL CampusMap);
   }
 }

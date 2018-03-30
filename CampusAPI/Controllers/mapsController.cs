@@ -1,4 +1,5 @@
-﻿using CampusAPI.DataStore;
+﻿using CampusAPI.BusinessLogicLayer;
+using CampusAPI.DataStore;
 using CampusAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,17 @@ namespace CampusAPI.Controllers
     [Route("maps/{map}/path/{node1}/{node2}")]
     public IHttpActionResult Get(string map, string node1, string node2)
     {
-      CampusMap campusMap = campusCache.GetCampusMap(map);
-      if ((campusMap == null) || (!campusMap.nodes.ContainsKey(node1)) || (!campusMap.nodes.ContainsKey(node2)))
+      CampusMapBLL campusMap = campusCache.GetCampusMap(map);
+      if ((campusMap == null) || (!campusMap.AllKnownNodeIds.Contains(node1)) || (!campusMap.AllKnownNodeIds.Contains(node2)))
       {
         return NotFound();
       }
+      Path path = campusMap.GetShortestPath(node1, node2);
+      if ((path != null) && (path.distance != float.PositiveInfinity))
+      {
+        return Ok(path);
+      }
       return BadRequest();
-      return Ok();
     }
 
     // PUT: /maps/{map}
@@ -41,7 +46,7 @@ namespace CampusAPI.Controllers
       }
       else
       {
-        campusCache.SetCampusMap(map, campusMap);
+        campusCache.SetCampusMap(map, new CampusMapBLL(campusMap));
         return Ok();
       }
     }

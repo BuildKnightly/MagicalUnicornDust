@@ -58,6 +58,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CampusMapBLLTests.cs" />
+    <Compile Include="CampusMapBLLTestsUtilities.cs" />
     <Compile Include="mapsControllerGETTests.cs" />
     <Compile Include="mapsControllerPUTTests.cs" />
     <Compile Include="mapsControllerTestsUtilities.cs" />
