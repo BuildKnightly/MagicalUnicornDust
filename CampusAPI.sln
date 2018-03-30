@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2011
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampusAPI", "CampusAPI\CampusAPI.csproj", "{1C76455F-765D-412A-AE3B-5FB63D034EED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampusAPI.Tests", "CampusAPI.Tests\CampusAPI.Tests.csproj", "{4A76BCF3-10CA-4FF3-B38C-BB8C03CBBCA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C76455F-765D-412A-AE3B-5FB63D034EED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C76455F-765D-412A-AE3B-5FB63D034EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C76455F-765D-412A-AE3B-5FB63D034EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C76455F-765D-412A-AE3B-5FB63D034EED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A76BCF3-10CA-4FF3-B38C-BB8C03CBBCA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A76BCF3-10CA-4FF3-B38C-BB8C03CBBCA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A76BCF3-10CA-4FF3-B38C-BB8C03CBBCA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A76BCF3-10CA-4FF3-B38C-BB8C03CBBCA4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7190138E-2B79-4DCF-9DFA-7A00F6909854}
+	EndGlobalSection
+EndGlobal
