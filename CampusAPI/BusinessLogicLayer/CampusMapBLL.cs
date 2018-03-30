@@ -49,7 +49,10 @@ namespace CampusAPI.BusinessLogicLayer
       }
       else
       {
-        return null;
+        Path path = new Path();
+        path.distance = float.PositiveInfinity;
+        path.path.AddRange(new string[] { Node1 });
+        return path;
       }
     }
   }
