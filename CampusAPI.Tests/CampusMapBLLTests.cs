@@ -22,5 +22,77 @@ namespace CampusAPI.Tests
       // Assert
       Assert.IsNotNull(testObj);
     }
+
+    [TestMethod]
+    public void TestCampusMapBLL_GetShortestPath_RouteNotFound()
+    {
+      // Arrange
+
+      // Action
+      CampusMapBLL testObj = new CampusMapBLL(mapsControllerTestsUtilities.GetACampusMap());
+
+      // Assert
+      Assert.Fail();
+    }
+
+    [TestMethod]
+    public void TestCampusMapBLL_GetShortestPath_RouteFound()
+    {
+      // Arrange
+
+      // Action
+      CampusMapBLL testObj = new CampusMapBLL(mapsControllerTestsUtilities.GetACampusMap());
+
+      // Assert
+      Assert.Fail();
+    }
+
+    [TestMethod]
+    public void TestCampusMapBLL_GetShortestPath_RouteFoundSimple()
+    {
+      // Arrange
+
+      // Action
+      CampusMapBLL testObj = new CampusMapBLL(mapsControllerTestsUtilities.GetACampusMap());
+
+      // Assert
+      Assert.Fail();
+    }
+
+    [TestMethod]
+    public void TestCampusMapBLL_GetShortestPath_RouteFoundDeep()
+    {
+      // Arrange
+
+      // Action
+      CampusMapBLL testObj = new CampusMapBLL(mapsControllerTestsUtilities.GetACampusMap());
+
+      // Assert
+      Assert.Fail();
+    }
+
+    [TestMethod]
+    public void TestCampusMapBLL_GetShortestPath_RouteFoundDeepWithShortCircuit()
+    {
+      // Arrange
+
+      // Action
+      CampusMapBLL testObj = new CampusMapBLL(mapsControllerTestsUtilities.GetACampusMap());
+
+      // Assert
+      Assert.Fail();
+    }
+
+    [TestMethod]
+    public void TestCampusMapBLL_GetShortestPath_RouteFoundDeepWithShortCircuitTrap()
+    {
+      // Arrange
+
+      // Action
+      CampusMapBLL testObj = new CampusMapBLL(mapsControllerTestsUtilities.GetACampusMap());
+
+      // Assert
+      Assert.Fail();
+    }
   }
 }
