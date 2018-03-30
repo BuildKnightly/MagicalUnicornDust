@@ -122,6 +122,7 @@
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BusinessLogicLayer\CampusMapBLL.cs" />
+    <Compile Include="BusinessLogicLayer\Comparers\PathComparer.cs" />
     <Compile Include="Controllers\mapsController.cs" />
     <Compile Include="DataStore\CampusCache.cs" />
     <Compile Include="DataStore\ICampusCache.cs" />

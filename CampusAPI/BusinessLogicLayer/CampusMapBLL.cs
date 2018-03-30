@@ -1,4 +1,5 @@
-﻿using CampusAPI.Models;
+﻿using CampusAPI.BusinessLogicLayer.Comparers;
+using CampusAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace CampusAPI.BusinessLogicLayer
 
     public Path GetShortestPath(string Node1, string Node2)
     {
+      SortedSet<Path> unvisitedNodes = InitialiseSortedSet(Node1);
       //Worst Algorithm, Just getting my test to pass
       if ((nodes.ContainsKey(Node1)) && (nodes[Node1].ContainsKey(Node2)))
       {
@@ -54,6 +56,32 @@ namespace CampusAPI.BusinessLogicLayer
         path.path.AddRange(new string[] { Node1 });
         return path;
       }
+    }
+
+    private SortedSet<Path> InitialiseSortedSet(string originNode)
+    {
+      SortedSet<Path> nodeDistances = new SortedSet<Path>(
+                                                                   new PathComparer<Path>((a, b) =>
+                                                                   {
+                                                                     if (a.distance != b.distance)
+                                                                     {
+                                                                       return a.distance.CompareTo(b.distance);
+                                                                     }
+                                                                     else
+                                                                     {
+                                                                       return a.path[0].CompareTo(b.path[0]);
+                                                                     }
+                                                                   }));
+
+      foreach (string node in AllKnownNodeIds)
+      {
+        Path path = new Path();
+        path.path.Add(node);
+        path.distance = (node == originNode ? 0 : float.PositiveInfinity);
+        nodeDistances.Add(path);
+      }
+
+      return nodeDistances;
     }
   }
 }
