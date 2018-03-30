@@ -9,41 +9,41 @@ using System.Web.Http;
 
 namespace CampusAPI.Controllers
 {
-    public class mapsController : ApiController
+  public class mapsController : ApiController
+  {
+    ICampusCache campusCache;
+
+    public mapsController(ICampusCache CampusCache)
     {
-        ICampusCache campusCache;
-
-        public mapsController(ICampusCache CampusCache)
-        {
-            this.campusCache = CampusCache;
-        }
-
-        // GET: /maps/{map}/path/{node1}/{node2}
-        [Route("maps/{map}/path/{node1}/{node2}")]
-        public IHttpActionResult Get(string map, string node1, string node2)
-        {
-            CampusMap campusMap = campusCache.GetCampusMap(map);
-            if ((campusMap == null) || (!campusMap.nodes.ContainsKey(node1)) || (!campusMap.nodes.ContainsKey(node1)))
-            {
-                return NotFound();
-            }
-            return BadRequest();
-            return Ok();
-        }
-
-        // PUT: /maps/{map}
-        [Route("maps/{map}")]
-        public IHttpActionResult Put(string map, [FromBody]CampusMap campusMap)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("The map data is invalid");
-            }
-            else
-            {
-                campusCache.SetCampusMap(map, campusMap);
-                return Ok();
-            }
-        }
+      this.campusCache = CampusCache;
     }
+
+    // GET: /maps/{map}/path/{node1}/{node2}
+    [Route("maps/{map}/path/{node1}/{node2}")]
+    public IHttpActionResult Get(string map, string node1, string node2)
+    {
+      CampusMap campusMap = campusCache.GetCampusMap(map);
+      if ((campusMap == null) || (!campusMap.nodes.ContainsKey(node1)) || (!campusMap.nodes.ContainsKey(node2)))
+      {
+        return NotFound();
+      }
+      return BadRequest();
+      return Ok();
+    }
+
+    // PUT: /maps/{map}
+    [Route("maps/{map}")]
+    public IHttpActionResult Put(string map, [FromBody]CampusMap campusMap)
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest("The map data is invalid");
+      }
+      else
+      {
+        campusCache.SetCampusMap(map, campusMap);
+        return Ok();
+      }
+    }
+  }
 }
