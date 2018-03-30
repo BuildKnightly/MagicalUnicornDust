@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CampusAPI.DataStore
 {
-    public interface ICampusCache
-    {
-        CampusMap GetCampusMap(string Campus);
-        void SetCampusMap(string Campus, CampusMap CampusMap);
-    }
+  public interface ICampusCache
+  {
+    CampusMap GetCampusMap(string Campus);
+    void SetCampusMap(string Campus, CampusMap CampusMap);
+  }
 }
