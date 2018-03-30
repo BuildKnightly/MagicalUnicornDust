@@ -6,25 +6,19 @@ using System.Text;
 using System.Web.Http;
 using System.Web.Http.Results;
 using CampusAPI.Controllers;
+using CampusAPI.DataStore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CampusAPI.Tests
 {
     [TestClass]
-    public class mapsControllerTests
+    public class mapsControllerPUTTests
     {
         [TestMethod]
-        public void TestCallingGet()
-        {
-            mapsController testObj = new mapsController();
-            testObj.Get("map", "node1", "node2");
-        }
-
-        [TestMethod]
-        public void TestCallingPut()
+        public void TestCallingPUTReturnsBadRequestErrorMessageResult()
         {
             // Arrange
-            var controller = new mapsController();
+            var controller = new mapsController(new CampusCache());
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, "/maps/map1");
             controller.ModelState.AddModelError("fakeError", "fakeError");
 

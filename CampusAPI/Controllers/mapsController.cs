@@ -22,8 +22,12 @@ namespace CampusAPI.Controllers
         [Route("maps/{map}/path/{node1}/{node2}")]
         public IHttpActionResult Get(string map, string node1, string node2)
         {
+            CampusMap campusMap = campusCache.GetCampusMap(map);
+            if ((campusMap == null) || (!campusMap.nodes.ContainsKey(node1)) || (!campusMap.nodes.ContainsKey(node1)))
+            {
+                return NotFound();
+            }
             return BadRequest();
-            return NotFound();
             return Ok();
         }
 
