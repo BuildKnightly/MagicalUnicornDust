@@ -11,14 +11,18 @@ namespace CampusAPI.Controllers
     {
         // GET: /maps/{map}/path/{node1}/{node2}
         [Route("maps/{map}/path/{node1}/{node2}")]
-        public string Get(string map, string node1, string node2)
+        public IHttpActionResult Get(string map, string node1, string node2)
         {
-            return "value";
+            return BadRequest();
+            //return NotFound();
+            //return Ok();
         }
 
         // PUT: /maps/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]string value)
         {
+            return BadRequest();
+            //return Ok();
         }
     }
 }
