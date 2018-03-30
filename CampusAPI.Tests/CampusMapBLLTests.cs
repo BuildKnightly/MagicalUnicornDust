@@ -136,7 +136,7 @@ namespace CampusAPI.Tests
       // Arrange
       string Node1 = "N1";
       string Node2 = "N2";
-      int goodRouteNrHops = 3;
+      int goodRouteNrHops = 4;
 
       // Action
       CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetACampusMapWithCircularReference(Node1, Node2, goodRouteNrHops));

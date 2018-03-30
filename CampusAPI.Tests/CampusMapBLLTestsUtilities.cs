@@ -101,14 +101,52 @@ namespace CampusAPI.Tests
       return new CampusMap() { nodes = testNodes };
     }
 
-    internal static CampusMap GetACampusMapWithNoRouteAndWithCircularReference(string node1, string node2, int goodRouteNrHops)
+    internal static CampusMap GetACampusMapWithCircularReference(string node1, string node2, int goodRouteNrHops)
     {
       //These values are passed in to check that no one acidentally breaks this test.
-      //Tests need to work with a known(READ Hardcoded) set, and this set has a good route of  3
-      if ((goodRouteNrHops != 3))
+      //Tests need to work with a known(READ Hardcoded) set, and this set has a good route of 4
+      if ((goodRouteNrHops != 4))
       {
         throw new InvalidOperationException();
       }
+
+      string uniquifier = $"{node1}_{node2}";
+
+      Dictionary<string, Dictionary<string, float>> testNodes = new Dictionary<string, Dictionary<string, float>>();
+      testNodes.Add(node1, new Dictionary<string, float>());
+      testNodes.Add(node2, new Dictionary<string, float>());
+      testNodes.Add($"{uniquifier}_a", new Dictionary<string, float>());
+      testNodes.Add($"{uniquifier}_b", new Dictionary<string, float>());
+      testNodes.Add($"{uniquifier}_c", new Dictionary<string, float>());
+      testNodes[node1].Add($"{uniquifier}_a", 5);
+      testNodes[$"{uniquifier}_a"].Add($"{uniquifier}_b", 5);
+      testNodes[$"{uniquifier}_b"].Add($"{uniquifier}_c", 5);
+      testNodes[$"{uniquifier}_b"].Add(node2, 10);
+      testNodes[$"{uniquifier}_c"].Add($"{uniquifier}_a", 5);
+
+      return new CampusMap() { nodes = testNodes };
+    }
+
+    internal static CampusMap GetACampusMapWithNoRouteAndWithCircularReference(string node1, string node2)
+    {
+
+      string uniquifier = $"{node1}_{node2}";
+
+      Dictionary<string, Dictionary<string, float>> testNodes = new Dictionary<string, Dictionary<string, float>>();
+      testNodes.Add(node1, new Dictionary<string, float>());
+      testNodes.Add(node2, new Dictionary<string, float>());
+      testNodes.Add($"{uniquifier}_a", new Dictionary<string, float>());
+      testNodes.Add($"{uniquifier}_b", new Dictionary<string, float>());
+      testNodes.Add($"{uniquifier}_c", new Dictionary<string, float>());
+      testNodes.Add($"{uniquifier}_d", new Dictionary<string, float>());
+      testNodes[node1].Add($"{uniquifier}_a", 5);
+      testNodes[$"{uniquifier}_a"].Add($"{uniquifier}_b", 5);
+      testNodes[$"{uniquifier}_a"].Add($"{uniquifier}_c", 5);
+      testNodes[$"{uniquifier}_b"].Add($"{uniquifier}_d", 5);
+      testNodes[$"{uniquifier}_d"].Add($"{uniquifier}_a", 5);
+      testNodes[node2].Add($"{uniquifier}_c", 30);
+
+      return new CampusMap() { nodes = testNodes };
     }
   }
 }
