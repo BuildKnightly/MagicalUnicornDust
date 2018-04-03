@@ -15,6 +15,7 @@ namespace CampusAPI.BusinessLogicLayer
       AllKnownNodeIds = GetAllNodeIds();
     }
 
+    //Gets all nodes identified in the path Campus Map
     private List<string> GetAllNodeIds()
     {
       List<string> nodeIds = new List<string>();
@@ -36,38 +37,35 @@ namespace CampusAPI.BusinessLogicLayer
       return nodeIds;
     }
 
+    //Processes the GetShortestPath algorithm
     public Path GetShortestPath(string Node1, string Node2)
     {
-      List<string> unvisitedNodes = new List<string>(AllKnownNodeIds);
+      UnvisitedListManager unvisitedNodes = new UnvisitedListManager();
+      unvisitedNodes.Add(Node1, 0);
       Dictionary<string, Path> workingSet = InitialiseWorkingSet(Node1);
+      string currNode;
 
-      while (unvisitedNodes.Count > 0)
+      while ((currNode = unvisitedNodes.Next()) != null)
       {
-        unvisitedNodes.Sort((a, b) => workingSet[a].distance.CompareTo(workingSet[b].distance));
-        string targetNode = unvisitedNodes[0];
-        if(workingSet[targetNode].distance == float.PositiveInfinity)  // We've run out of connected nodes
+        if (nodes.ContainsKey(currNode))
         {
-          break;
-        }
-        unvisitedNodes.Remove(targetNode);
-
-        if (nodes.ContainsKey(targetNode))
-        {
-          foreach (string node in nodes[targetNode].Keys)
+          foreach (string nextNode in nodes[currNode].Keys)
           {
             //check if shortest distance from the origin to this node 
             //added to
             //the distance to the next node
             //is shorter than
             //the known distance from the origin the the next node
-            if (workingSet[targetNode].distance + nodes[targetNode][node] < workingSet[node].distance)
+            if (workingSet[currNode].distance + nodes[currNode][nextNode] < workingSet[nextNode].distance)
             {
               //update the route distance to the next node with this known shorter route distance
-              workingSet[node].distance = workingSet[targetNode].distance + nodes[targetNode][node];
+              float newDistance = workingSet[currNode].distance + nodes[currNode][nextNode];
+              workingSet[nextNode].distance = newDistance;
 
               //update the route path to be this nodes path plus the edge to the next node
-              workingSet[node].path = new List<string>(workingSet[targetNode].path);
-              workingSet[node].path.Add(node);
+              workingSet[nextNode].path = new List<string>(workingSet[currNode].path);
+              workingSet[nextNode].path.Add(nextNode);
+              unvisitedNodes.Add(nextNode, newDistance);
             }
           }
         }
@@ -75,6 +73,7 @@ namespace CampusAPI.BusinessLogicLayer
       return workingSet[Node2];
     }
 
+    //Initalises the main data structure needed to process the algorithm
     private Dictionary<string, Path> InitialiseWorkingSet(string originNode)
     {
       Dictionary<string, Path> workingSet = new Dictionary<string, Path>();
@@ -87,32 +86,5 @@ namespace CampusAPI.BusinessLogicLayer
       }
       return workingSet;
     }
-    /*
-    private SortedSet<PathVector> InitialiseSortedSet(string originNode)
-    {
-      SortedSet<PathVector> nodeDistances = new SortedSet<PathVector>(
-                                                                   new PathVectorComparer<PathVector>((a, b) =>
-                                                                   {
-                                                                     if (a.shortestPath.distance != b.shortestPath.distance)
-                                                                     {
-                                                                       return a.shortestPath.distance.CompareTo(b.shortestPath.distance);
-                                                                     }
-                                                                     else
-                                                                     {
-                                                                       return a.targetNode.CompareTo(b.targetNode);
-                                                                     }
-                                                                   }));
-
-      foreach (string node in AllKnownNodeIds)
-      {
-        PathVector pathVector = new PathVector();
-        pathVector.targetNode = node;
-        pathVector.shortestPath.path.Add(originNode);
-        pathVector.shortestPath.distance = (node == originNode ? 0 : float.PositiveInfinity);
-        nodeDistances.Add(pathVector);
-      }
-
-      return nodeDistances;
-    }*/
   }
 }

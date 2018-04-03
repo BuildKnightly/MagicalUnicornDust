@@ -14,6 +14,7 @@ namespace CampusAPI.Tests
   [TestClass]
   public class mapsControllerPUTTests
   {
+    //Tests that PUT will return BadRequest if an error occurs when loading Model State
     [TestMethod]
     public void TestCallingPUTReturnsBadRequestErrorMessageResult()
     {
@@ -29,6 +30,7 @@ namespace CampusAPI.Tests
       Assert.AreEqual(typeof(System.Web.Http.Results.BadRequestErrorMessageResult), actionResult.GetType());
     }
 
+    //Tests that PUT adds the sent in nodes to the campus cache
     [TestMethod]
     public void TestPUTSetsTheCache()
     {
@@ -39,15 +41,7 @@ namespace CampusAPI.Tests
       string campusID = "testID";
 
       // Action
-      Dictionary<string, Dictionary<string, float>> testNodes = new Dictionary<string, Dictionary<string, float>>();
-      testNodes.Add("a", new Dictionary<string, float>());
-      testNodes["a"].Add("b", 20);
-      testNodes.Add("b", new Dictionary<string, float>());
-      testNodes["b"].Add("q", 20);
-      testNodes["b"].Add("c", 20);
-
       Models.CampusMap campusMap = mapsControllerTestsUtilities.GetACampusMap();
-
 
       IHttpActionResult actionResult = controller.Put(campusID, campusMap);
 

@@ -122,6 +122,7 @@
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BusinessLogicLayer\CampusMapBLL.cs" />
+    <Compile Include="BusinessLogicLayer\UnvisitedListManager.cs" />
     <Compile Include="Controllers\mapsController.cs" />
     <Compile Include="DataStore\CampusCache.cs" />
     <Compile Include="DataStore\ICampusCache.cs" />
@@ -155,7 +156,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54368</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

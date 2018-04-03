@@ -7,6 +7,7 @@ using System.Web;
 
 namespace CampusAPI.DataStore
 {
+  //Stores Campus data in memory
   public class CampusCache : ICampusCache
   {
     Dictionary<string, CampusMapBLL> campuses = new Dictionary<string, CampusMapBLL>();

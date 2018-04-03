@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace CampusAPI.DataStore
 {
+
+  //Defines the interface of the Campus Cache
   public interface ICampusCache
   {
     CampusMapBLL GetCampusMap(string Campus);

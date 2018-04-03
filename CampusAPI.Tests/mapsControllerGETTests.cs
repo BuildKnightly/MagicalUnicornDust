@@ -15,25 +15,25 @@ namespace CampusAPI.Tests
   [TestClass]
   public class mapsControllerGETTests
   {
+    //Tests that any incorrectly specified parameter results in a NotFound message
     [TestMethod]
     public void TestCallingGETReturnNotFoundErrorMessageResult()
     {
-      
       // Arrange
       mapsController testObj = new mapsController(mapsControllerTestsUtilities.GetMapNode1Node2CampusCache());
       testObj.Request = new HttpRequestMessage();
       testObj.ControllerContext.Configuration = new HttpConfiguration();
 
       // Action
-      IHttpActionResult actionResultMap = testObj.Get("mapxxx", "node1", "node2");
-      IHttpActionResult actionResultNode1 = testObj.Get("map", "node1xxx", "node2");
-      IHttpActionResult actionResultNode2 = testObj.Get("map", "node1", "node2xxx");
+      HttpResponseMessage actionResultMap = testObj.Get("mapxxx", "node1", "node2").ExecuteAsync(System.Threading.CancellationToken.None).Result;
+      HttpResponseMessage actionResultNode1 = testObj.Get("map", "node1xxx", "node2").ExecuteAsync(System.Threading.CancellationToken.None).Result;
+      HttpResponseMessage actionResultNode2 = testObj.Get("map", "node1", "node2xxx").ExecuteAsync(System.Threading.CancellationToken.None).Result;
       HttpResponseMessage actionResultMapSanityCheck = testObj.Get("map", "node1", "node2").ExecuteAsync(System.Threading.CancellationToken.None).Result;
 
       // Assert
-      Assert.AreEqual(typeof(System.Web.Http.Results.NotFoundResult), actionResultMap.GetType());
-      Assert.AreEqual(typeof(System.Web.Http.Results.NotFoundResult), actionResultNode1.GetType());
-      Assert.AreEqual(typeof(System.Web.Http.Results.NotFoundResult), actionResultNode2.GetType());
+      Assert.AreEqual(System.Net.HttpStatusCode.NotFound, actionResultMap.StatusCode);
+      Assert.AreEqual(System.Net.HttpStatusCode.NotFound, actionResultNode1.StatusCode);
+      Assert.AreEqual(System.Net.HttpStatusCode.NotFound, actionResultNode2.StatusCode);
       Assert.AreEqual(System.Net.HttpStatusCode.OK, actionResultMapSanityCheck.StatusCode); //Checking that NotFoundResult isnt always returned
     }
   }

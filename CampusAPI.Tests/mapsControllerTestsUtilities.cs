@@ -1,6 +1,7 @@
 ﻿using CampusAPI.BusinessLogicLayer;
 using CampusAPI.DataStore;
 using CampusAPI.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,25 +10,26 @@ using System.Threading.Tasks;
 
 namespace CampusAPI.Tests
 {
+
+  //Utilities class to assist UnitTests
   class mapsControllerTestsUtilities
   {
+    //Creates a simple 3 edge Campus Map
     internal static CampusMap GetACampusMap()
     {
-      Dictionary<string, Dictionary<string, float>> testNodes = new Dictionary<string, Dictionary<string, float>>();
-      testNodes.Add("a", new Dictionary<string, float>());
-      testNodes["a"].Add("b", 20);
-      testNodes.Add("b", new Dictionary<string, float>());
-      testNodes["b"].Add("q", 20);
-      testNodes["b"].Add("c", 20);
+      string json = @"{""a"":{""b"":20}," +
+                     @"""b"":{""c"":20,""d"":20}}";
 
+      var testNodes = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, float>>>(json);
       return new CampusMap() { nodes = testNodes };
     }
 
+    //Creates a simple 1 edge Campus Map
     internal static CampusCache GetMapNode1Node2CampusCache()
     {
-      Dictionary<string, Dictionary<string, float>> testNodes = new Dictionary<string, Dictionary<string, float>>();
-      testNodes.Add("node1", new Dictionary<string, float>());
-      testNodes["node1"].Add("node2", 20);
+      string json = @"{""node1"":{""node2"":20}}";
+
+      var testNodes = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, float>>>(json);
 
       CampusCache campusCache = new CampusCache();
       campusCache.SetCampusMap("map", new CampusMapBLL(new CampusMap() { nodes = testNodes }));

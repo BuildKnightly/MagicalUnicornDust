@@ -12,6 +12,7 @@ namespace CampusAPI.Tests
   [TestClass]
   public class CampusMapBLLTests
   {
+    //Tests that any incorrectly specified parameter results in a NotFound message
     [TestMethod]
     public void TestConstructingCampusMapBLL()
     {
@@ -24,13 +25,15 @@ namespace CampusAPI.Tests
       Assert.IsNotNull(testObj);
     }
 
-    //There is no route between the nodes
+    //Tests that when there is no route between the nodes, a distance of infinite units is returned
     [TestMethod]
     public void TestCampusMapBLL_GetShortestPath_RouteNotFound()
     {
       // Arrange
       string Node1 = "N1";
       string Node2 = "N2";
+
+      object o = CampusMapBLLTestsUtilities.GetACampusMap();
 
       // Action
       CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetANoRouteCampusMap(Node1, Node2));
@@ -43,7 +46,7 @@ namespace CampusAPI.Tests
       Assert.AreEqual(Node1, path.path[0]);
     }
 
-    // The nodes are 1 step away from each other
+    //Tests that a route is found when the nodes are 1 step away from each other
     [TestMethod]
     public void TestCampusMapBLL_GetShortestPath_RouteFound1Hop()
     {
@@ -64,7 +67,7 @@ namespace CampusAPI.Tests
       Assert.AreEqual(Node2, path.path[nrHops]);
     }
 
-    // The nodes are more than 2 steps away from each other
+    //Tests that a route is found when the nodes are 3 steps away from each other
     [TestMethod]
     public void TestCampusMapBLL_GetShortestPath_RouteFound3Hop()
     {
@@ -85,7 +88,7 @@ namespace CampusAPI.Tests
       Assert.AreEqual(Node2, path.path[nrHops]);
     }
 
-    //There are two paths between the nodes, algorithm should use the shorter
+    //Tests that the algorithm uses the shorter when there are two paths between the nodes.
     [TestMethod]
     public void TestCampusMapBLL_GetShortestPath_RouteFoundDeepWithShortCircuit()
     {
@@ -96,7 +99,7 @@ namespace CampusAPI.Tests
       int badRouteNrHops = 3;
 
       // Action
-      CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetACampusMapWithShortCircuit(Node1, Node2, goodRouteNrHops, badRouteNrHops));
+      CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetACampusMapWithShortcut(Node1, Node2, goodRouteNrHops, badRouteNrHops));
       Path path = testObj.GetShortestPath(Node1, Node2);
 
       // Assert
@@ -107,7 +110,7 @@ namespace CampusAPI.Tests
       Assert.AreEqual(Node2, path.path[goodRouteNrHops]);
     }
 
-    //There is shortcut in this graph, but the weighting is higher, algorithm shouldn't use it
+    //Tests that the algorithm uses the shortest weighted path, not the one with the least hops
     [TestMethod]
     public void TestCampusMapBLL_GetShortestPath_RouteFoundDeepWithShortCircuitTrap()
     {
@@ -118,7 +121,7 @@ namespace CampusAPI.Tests
       int goodRouteNrHops = 3;
 
       // Action
-      CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetACampusMapWithShortCircuitTrap(Node1, Node2, goodRouteNrHops, badRouteNrHops));
+      CampusMapBLL testObj = new CampusMapBLL(CampusMapBLLTestsUtilities.GetACampusMapWithShortcutTrap(Node1, Node2, goodRouteNrHops, badRouteNrHops));
       Path path = testObj.GetShortestPath(Node1, Node2);
 
       // Assert
@@ -129,7 +132,7 @@ namespace CampusAPI.Tests
       Assert.AreEqual(Node2, path.path[goodRouteNrHops]);
     }
 
-    //There are two paths between the nodes, algorithm should use the shorter
+    //Tests that the algorithm finds a path, and doesn't get stuck if there is a circular reference
     [TestMethod, Timeout(1000)]
     public void TestCampusMapBLL_GetShortestPath_RouteFoundWithCircularReference()
     {
@@ -150,7 +153,7 @@ namespace CampusAPI.Tests
       Assert.AreEqual(Node2, path.path[nrHops]);
     }
 
-    //There are two paths between the nodes, algorithm should use the shorter
+    //Tests that the algorithm doesn't get stuck if there is a circular reference and no path is found
     [TestMethod, Timeout(1000)]
     public void TestCampusMapBLL_GetShortestPath_RouteNotFoundWithCircularReference()
     {
